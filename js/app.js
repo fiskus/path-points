@@ -1,17 +1,14 @@
 (function() {
-    var path = {};
+    var path = [];
+    var markers = [];
     var i = 0;
     var initialZoom = 4;
 
-    function setPathPoint(id, latlng) {
-        var lat = parseFloat(latlng.lat, 10);
-        var lng = parseFloat(latlng.lng, 10);
-        path[id] = [lat, lng];
-    }
-
     function onMarkerClick(id) {
-        delete path[id];
-        refresh();
+        path = path.filter(function(latlng, n) {
+            return n !== id;
+        });
+        redraw();
     }
 
     function refresh () {
@@ -20,16 +17,18 @@
     }
 
     function onMarkerDrag(data) {
-        setPathPoint(data.id, data.latlng);
+        path[data.id] = data.latlng;
         refresh();
     }
 
-    function onMapClick (latlng) {
-        var marker = new Marker(
+    function createMarker (latlng, i) {
+        return new Marker(
                 i, latlng, map.getMap(), onMarkerClick, onMarkerDrag);
+    }
 
-        setPathPoint(i, latlng);
-        path.length = (i + 1);
+    function onMapClick (latlng) {
+        markers.push(createMarker(latlng, i));
+        path.push([latlng.lat, latlng.lng]);
 
         refresh();
 
@@ -40,7 +39,23 @@
         zoom.drawZoom(z);
     }
 
+    function redraw () {
+        markers.forEach(function(marker) {
+            marker.detach();
+        });
+        markers = path.map(createMarker);
+        refresh();
+    }
+
+    function onInput (data) {
+        path = data.map(function(lnglat) {
+            return lnglat.reverse();
+        });
+        redraw();
+    }
+
     var dashboard = new Dashboard();
     var map = new Map(initialZoom, onMapClick, onZoom);
     var zoom = new Zoom(initialZoom);
+    var input = new Input(onInput);
 })();

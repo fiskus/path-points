@@ -19,8 +19,8 @@ function Map (initialZoom, clickCallback, zoomCallback) {
         if (polyline) {
             map.removeLayer(polyline);
         }
-        Array.prototype.slice.call(path, 0);
-        polyline = L.polyline(path, {
+        var pathArray = Array.prototype.slice.call(path, 0);
+        polyline = L.polyline(pathArray, {
             color: 'red'
         }).addTo(map);
     };

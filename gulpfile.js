@@ -15,8 +15,8 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./js', ['scripts']);
-    gulp.watch('./stylus', ['stylus']);
+    gulp.watch('./js/*.js', ['scripts']);
+    gulp.watch('./stylus/*.styl', ['stylus']);
 });
 
-gulp.task('default', ['watch', 'stylus', 'scripts']);
+gulp.task('default', ['stylus', 'scripts', 'watch']);

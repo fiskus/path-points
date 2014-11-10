@@ -5,7 +5,7 @@ function Zoom (initialZoom) {
 
     dashboardZoom.innerHTML = initialZoom;
 
-    function drawZoom (zoom) {
+    this.drawZoom = function (zoom) {
         dashboardZoom.innerHTML = zoom;
-    }
+    };
 }

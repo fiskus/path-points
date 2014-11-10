@@ -4,6 +4,10 @@ function Marker (id, latlng, map, clickCallback, dragCallback) {
         draggable: true
     };
 
+    this.detach = function () {
+        map.removeLayer(marker);
+    };
+
     function onClick () {
         map.removeLayer(marker);
         clickCallback(id);
@@ -21,5 +25,4 @@ function Marker (id, latlng, map, clickCallback, dragCallback) {
         .addTo(map)
         .on('click', onClick)
         .on('drag', onDrag);
-    marker._id = id;
 }
