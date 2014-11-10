@@ -20,3 +20,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['stylus', 'scripts', 'watch']);
+gulp.task('build', ['stylus', 'scripts']);
